@@ -12,9 +12,10 @@ Está abierta al público de lunesaviernes en el horario de 8:00 a 19:00, y los 
 
 <h2>Como Sacar un Turno Como Paciente</h2>
 
+![2021-06-17 05-13-31 (1)](https://user-images.githubusercontent.com/52363833/122360851-19e75100-cf2d-11eb-9f5f-d3fcee94ee2d.gif)
 
 
-Podremos registrarnos como pacientes o como especialistas.Se le enviara un mail al correo con el que se registro para poder acceder
+Podremos Sacar un Turno con SOLO DOS CLICKS!!. Tambien podemos buscar alguna especialidad en especifico o algun especialista.
 
 
 <h2>Perfil Especialista</h2>

@@ -1,0 +1,229 @@
+<app-nav-bar></app-nav-bar>
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header appHover>
+        <mat-panel-title>
+            Lista Usuarios
+        </mat-panel-title>
+        <mat-panel-description>
+            Lista de usuarios de la Clinica
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div align=center>
+        <button class="btn btn-success" (click)="generarExcel()">Excel Listado Usuarios</button>
+    
+    </div>
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Lista de Especialistas
+                </mat-panel-title>
+                <mat-panel-description>
+                    Lista de los Especialistas de la Clinica
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                *ngFor="let item of listaEspecialista" (click)='verUsuario(item)'>
+                {{item.nombre}} {{item.apellido}}
+            </button>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Lista de los Pacientes
+                </mat-panel-title>
+                <mat-panel-description>
+                    Lista de los Pacientes de la Clinica
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal2"
+                *ngFor="let item of listaPacientes" (click)='verUsuario(item)'>
+                {{item.nombre}} {{item.apellido}}
+            </button>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Lista de los Admins
+                </mat-panel-title>
+                <mat-panel-description>
+                    Lista de los Administradores de la Clinica
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal3"
+                *ngFor="let item of listaAdmins" (click)='verUsuario(item)'>
+                {{item.nombre}} {{item.apellido}}
+            </button>
+        </mat-expansion-panel>
+    </mat-accordion>
+</mat-expansion-panel>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div *ngIf="espSeleccionado!=undefined">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel">{{espSeleccionado.nombre}}
+                        {{espSeleccionado.apellido}}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="{{espSeleccionado.imagen}}" style="width: 200px; height: auto;">
+                    <p class="fs-2 row">DNI: {{espSeleccionado.dni}}</p>
+                    <p class="fs-2 row">Edad: {{espSeleccionado.edad}}</p>
+                    <p class="fs-2 row">Email: {{espSeleccionado.email}}</p>
+                    <p class="fs-2 row">Password: {{espSeleccionado.password}}</p>
+                    <p class="fs-2 row" *ngFor="let esp of espSeleccionado.especialidad">{{esp}}</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button [class]="espSeleccionado.classboton" type="button" (click)='darAlta(espSeleccionado)'><i
+                            [class]='espSeleccionado.classicono'></i></button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div *ngIf="espSeleccionado!=undefined">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel">{{espSeleccionado.nombre}}
+                        {{espSeleccionado.apellido}}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <img class="col-6" src="{{espSeleccionado.imagen1}}">
+                        <img class="col-6" src="{{espSeleccionado.imagen2}}">
+                    </div>
+                    <p class="fs-2 row">DNI: {{espSeleccionado.dni}}</p>
+                    <p class="fs-2 row">Edad: {{espSeleccionado.edad}}</p>
+                    <p class="fs-2 row">Email: {{espSeleccionado.email}}</p>
+                    <p class="fs-2 row">Password: {{espSeleccionado.password}}</p>
+                    <p class="fs-2 row">Obra Social:{{espSeleccionado.obraSocial}}</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div *ngIf="espSeleccionado!=undefined">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel">{{espSeleccionado.nombre}}
+                        {{espSeleccionado.apellido}}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="{{espSeleccionado.imagen}}" style="width: 200px; height: auto;">
+                    <p class="fs-2 row">DNI: {{espSeleccionado.dni}}</p>
+                    <p class="fs-2 row">Edad: {{espSeleccionado.edad}}</p>
+                    <p class="fs-2 row">Email: {{espSeleccionado.email}}</p>
+                    <p class="fs-2 row">Password: {{espSeleccionado.password}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<mat-accordion>
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Alta Admin
+            </mat-panel-title>
+            <mat-panel-description>
+                Dar de Alta un Admin
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-alta-admin></app-alta-admin>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Turnos
+            </mat-panel-title>
+            <mat-panel-description>
+                Turnos de la Clinica
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngIf="listaTurnos.length==0">
+            <br>
+            <h1>Todavia hay Turnos</h1>
+            <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <div *ngIf="listaTurnos.length>0">
+            <div class="row">
+                <div *ngFor="let item of listaTurnos" class=" col-sm-12 col-md-6">
+                    <div class="card">
+                        <h1 class="card-text fs-4">ESTADO: {{item.estado}} </h1>
+                        <img [src]="item.paciente.imagen1" class="card-img-top rounded mx-auto d-block"
+                            style="width: 50%; height: auto;">
+                        <div class="card-body">
+                            <h5 class="card-title fs-2">{{item.paciente.nombre}} {{item.paciente.apellido}}</h5>
+                            <p class="card-text fs-4 ">Especialidad: {{item.especialidad}}</p>
+                            <p class="card-text fs-4 ">Horario: {{item.horario}}</p>
+                            <div *ngIf="item.estado=='aceptado'">
+                                <button class="btn btn-outline-danger"
+                                    (click)='guardarTurno("cancelado",item.id)'>cancelar</button>
+                            </div>
+                            <div *ngIf="item.estado=='cancelado' || item.estado=='rechazado'">
+                                <button class="btn btn-outline-info" (click)='verMotivo(item.comentario)'>ver
+                                    motivo</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-expansion-panel>
+</mat-accordion>
+
+
+
+
+<ng-template #modalRechazar let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Rechazar turno</h4>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formularioComentario">
+        <div class="row">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Escriba un comentario" formControlName="comentario"
+              required>
+          </div>
+        </div>
+      </form>
+    </div>
+    <button class="btn btn-success btn-block mb-3" [disabled]="formularioComentario.invalid"
+      (click)="rechazarTurnoModal()">Enviar</button>
+  </ng-template>
+
+  <ng-template #modalVerComentario let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title fs-1">Comentarios</h4>
+    </div>
+    <div class="modal-body">
+        <h2>Comentario: {{comentario}}</h2>
+      </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
+    </div>
+  </ng-template>

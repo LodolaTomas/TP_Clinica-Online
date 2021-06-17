@@ -1,0 +1,59 @@
+<div class="container-fluid" style="width: 100%; background-color: #24292E; color: white;">
+  <h1>Mis Horarios</h1>
+  <div class="row">
+
+    <div class="col col-sm-6 p-2" *ngFor="let esp of especialidades">
+      <button class="btn btn-success" type="button" (click)="espSeleccionada(esp)">
+        {{esp}}
+      </button>
+    </div>
+  </div>
+  <div>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <h1>Dias a trabajar con la Especialidad de {{espSelec}}</h1>
+    <div class="row justify-content-md-center" *ngIf="flag">
+    <div class="form-check form-switch form-switch-lg col-sm-12 col-md-4 col-xl-2" formArrayName="orders" *ngFor="let order of ordersFormArray.controls; let i = index">
+      <input class="form-check-input" type="checkbox" [formControlName]="i" id="{{checks[i].description}}">
+      <label class="form-check-label" style="font-size: x-large;" for="{{checks[i].description}}">{{checks[i].description}}</label>
+    </div>
+    <button class="btn btn-warning" (click)="salir()">Guardar</button>
+  </div>
+  </form>
+  <!-- <h1>Mis Horarios</h1>
+  <div class="row">
+    <div class="col col-sm-6 p-2" *ngFor="let esp of especialidades">
+      <button class="btn btn-success" type="button" (click)="espSeleccionada(esp)">
+        {{esp}}
+      </button>
+    </div>
+  </div>
+  <div>
+    <div class="row" *ngIf="flag">
+      <h1>Dias a trabajar con la Especialidad de {{espSelec}}</h1>
+      <div class="form-check form-switch form-switch-lg col col-lg-12 m-2" *ngFor="let item of checks">
+        <input class="form-check-input" type="checkbox" id="{{item.description}}" [checked]="item.value" (change)="changeStatus(item)">
+        <label class="form-check-label fs-2" for="{{item.description}}">{{item.description}}</label>
+      </div> -->
+      <!-- <div class="form-check form-switch form-switch-lg col col-lg-12 m-2">
+        <input class="form-check-input" type="checkbox" id="Martes" [checked]=martesCheck >
+        <label class="form-check-label fs-2" for="Martes">Martes</label>
+      </div>
+      <div class="form-check form-switch form-switch-lg col col-lg-12 m-2" >
+        <input class="form-check-input" type="checkbox" id="Miercoles" [checked]=miercolesCheck>
+        <label class="form-check-label fs-2" for="Miercoles">Miercoles</label>
+      </div>
+      <div class="form-check form-switch form-switch-lg col col-lg-12  m-2" >
+        <input class="form-check-input" type="checkbox" id="Jueves" [checked]=juevesCheck>
+        <label class="form-check-label fs-2" for="Jueves">Jueves</label>
+      </div>
+      <div class="form-check form-switch form-switch-lg col col-lg-12 m-2" >
+        <input class="form-check-input" type="checkbox" id="Viernes" [checked]=viernesCheck>
+        <label class="form-check-label fs-2" for="Viernes">Viernes</label>
+      </div>
+      <div class="form-check form-switch form-switch-lg col col-lg-12 m-2" >
+        <input class="form-check-input" type="checkbox" id="Sabado" [checked]=sabadoCheck>
+        <label class="form-check-label fs-2" for="Sabado">Sabado</label>
+      </div> -->
+<!--     </div>
+  </div>
+  <button class="btn btn-warning" (click)="guardarHorarios()">Guardar</button> -->

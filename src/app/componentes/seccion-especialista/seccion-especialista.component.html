@@ -1,0 +1,231 @@
+<app-nav-bar></app-nav-bar>
+<div class="container" style="width: 100%;">
+  <div align=center class="mt-2">
+    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+      aria-controls="offcanvasExample">
+      MI PERFIL
+    </a>
+    <div *ngIf="habilitado==false">
+      <br>
+      <h1>Esperando a ser Dado de Alta</h1>
+      <div class="spinner-border text-dark" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div *ngIf="misTurnos.length==0">
+      <br>
+      <h1>Todavia no tiene Turnos</h1>
+      <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div *ngIf="flag!=true">
+      <div *ngIf="misTurnos.length>0">
+        <br>
+        <h1>Mis Turnos</h1>
+        <div class="row">
+          <div *ngFor="let item of misTurnos" class=" col-sm-12 col-md-6">
+            <div class="card">
+              <h1 class="card-text fs-4">ESTADO: {{item.estado}} </h1>
+              <img [src]="item.paciente.imagen1" class="card-img-top rounded mx-auto d-block"
+                style="width: 50%; height: auto;">
+              <div class="card-body">
+                <h5 class="card-title fs-2">{{item.paciente.nombre}} {{item.paciente.apellido}}</h5>
+                <p class="card-text fs-4 ">Especialidad: {{item.especialidad}}</p>
+                <p class="card-text fs-4 ">Horario: {{item.horario}}</p>
+                <div *ngIf="item.estado=='pendiente'">
+                  <button class="btn btn-outline-success" (click)='guardarTurno("aceptado",item.id)'>aceptar</button>
+                  <!-- cambiar a aceptado y mostrar dos botones -->
+                  <button class="btn btn-outline-danger" (click)='guardarTurno("rechazado",item.id)'>rechazar</button>
+                  <!-- cambiar a rechazar y agregar una razon -->
+                </div>
+                <div *ngIf="item.estado=='aceptado'">
+                  <button class="btn btn-outline-danger" (click)='guardarTurno("cancelado",item.id)'>cancelar</button>
+                  <!-- cambiar a cancelado y dejar resenia -->
+                  <button class="btn btn-outline-success"
+                    (click)='guardarTurno("finalizado",item.id)'>finalizar</button>
+                  <!-- cambiar steado y dejar resena especifica -->
+                </div>
+                <div *ngIf="item.estado=='cancelado' || item.estado=='rechazado'">
+                  <button class="btn btn-outline-info" (click)='verMotivo(item.comentario)'>ver motivo</button>
+                  <!-- ver solo resenia de xq cancele o rechaze el turnito -->
+                </div>
+                <div *ngIf="item.estado=='finalizado'">
+                  <button class="btn btn-outline-info" (click)='guardarTurno("resenia",item.id)'>ver resenia</button>
+                  <!-- ver los datos de la resenia -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="flag" class="mt-4">
+      <app-mis-horarios [especialista]="especialista" (guardar)="guardado($event)"></app-mis-horarios>
+    </div>
+
+  </div>
+  <div *ngIf="especialista!=undefined">
+    <div class="offcanvas offcanvas-start" style="background-color: #2b2d2f;" tabindex="-1" id="offcanvasExample"
+      aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" style="color: white;" id="offcanvasExampleLabel">MY PERFIL</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body" style="width: 100%;">
+        <div class="list-group">
+          <button type="button" class="list-group-item list-group-item-action"><img src="{{especialista.imagen}}"
+              style="height: auto;width: 100%;"></button>
+          <button type="button" class="list-group-item list-group-item-action">NOMBRE:
+            {{especialista.nombre}}</button>
+          <button type="button" class="list-group-item list-group-item-action">APELLIDO:
+            {{especialista.apellido}}</button>
+          <button type="button" class="list-group-item list-group-item-action">EMAIL:
+            {{especialista.email}}</button>
+          <button type="button" class="list-group-item list-group-item-action">EDAD:
+            {{especialista.edad}}</button>
+          <button type="button" class="list-group-item list-group-item-action">DNI:
+            {{especialista.dni}}</button>
+        </div>
+        <div *ngIf="habilitado">
+          <button type="button" class="btn-danger mt-3" data-bs-dismiss="offcanvas" aria-label="Close"
+            (click)="flag=true">MIS
+            HORARIOS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <ng-template #modalRechazar let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Rechazar turno</h4>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formularioComentario">
+        <div class="row">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Escriba un comentario" formControlName="comentario"
+              required>
+          </div>
+        </div>
+      </form>
+    </div>
+    <button class="btn btn-success btn-block mb-3" [disabled]="formularioComentario.invalid"
+      (click)="rechazarTurnoModal()">Enviar</button>
+  </ng-template>
+
+
+
+  <ng-template #modalFinalizar let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Finalizar turno</h4>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formularioHistoriaClinica">
+
+        <div class="row-flex">
+          <div>
+            <label for="">Altura</label>
+            <input type="number" class="form-control" placeholder="Ingrese el Altura" formControlName="altura" required>
+            <label for="">Peso</label>
+            <input type="number" class="form-control" placeholder="Ingrese el Peso" formControlName="peso" required>
+            <label for="">Temepratura</label>
+            <input type="number" class="form-control" placeholder="Ingrese la Temepratura" formControlName="temperatura"
+              required>
+            <label for="">Presion</label>
+            <input type="number" class="form-control" placeholder="Ingrese la presion" formControlName="presion"
+              required>
+            <label for="">Comentario</label>
+            <input type="text" class="form-control" placeholder="Dato" formControlName="comentario" required>
+
+            <hr>
+            <form [formGroup]="formularioHistoriaClinicaDatos">
+              <label for="">Datos extra</label>
+              <div class="row form-group mt-4" *ngIf="flag == false">
+                <div class="col-5 mt-4">
+                  <input placeholder="dato" id="esp" type="text" formControlName="dato" class="form-control" id="dato"
+                    [(ngModel)]="textodato" />
+                </div>
+                <div class="col-5 mt-4">
+                  <input placeholder="valor" id="esp" type="text" formControlName="valor" class="form-control"
+                    id="valor" [(ngModel)]="textovalor" />
+                </div>
+                <div class="col-2 mt-4">
+                  <div class="especialidad">
+                    <button class="btn btn-primary btn-block" (click)="AgregarDatosExtas()"
+                      [disabled]="textEmpty()">
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <ul class="w-100 p-3">
+                  <div class="row">
+                    <div *ngFor="let item of datosExtas | keys" class="col-lg-4">
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          readonly
+                          class="form-control"
+                          value="{{ item.key }}-{{item.value}}"
+                          placeholder="Recipient's username"
+                          aria-label="Recipient's username"
+                          aria-describedby="basic-addon2"
+                        />
+                        <span
+                          (click)="BorrarDatosExtas(item)"
+                          class="btn btn-danger"
+                          id="basic-addon2"
+                          ><i class="fa fa-trash-o" aria-hidden="true"></i
+                        ></span>
+                      </div>
+                    </div>
+                  </div>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-success btn-block" [disabled]="formularioHistoriaClinica.invalid"
+        (click)="finalizarTurnoModal()">Enviar</button>
+    </div>
+  </ng-template>
+
+
+
+
+
+  <ng-template #modalVerComentario let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title fs-1">Comentarios</h4>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="comentario!=undefined">
+        <h2>Comentario: {{comentario}}</h2>
+      </div>
+      <div *ngIf="comentario==undefined">
+        <h2>Altura: {{historiaPaciente.altura}}</h2>
+        <h2>Peso: {{historiaPaciente.peso}}</h2>
+        <h2>Presion: {{historiaPaciente.presion}}</h2>
+        <h2>Temperatura: {{historiaPaciente.temperatura}}</h2>
+        <h2>Datos Adicionales</h2>
+        <h2 *ngFor="let item of historiaPaciente.datos | keys">
+          {{item.key}} - {{item.value}}
+        </h2>
+        
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,64 @@
+<app-nav-bar></app-nav-bar>
+<div class="container-fuild" align=center>
+  <div  class="mt-2">
+    <button class="btn btn-outline-warning" routerLink="/seccionPaciente"><i class="fas fa-caret-left"></i> Atras</button>
+    <h1 id="exampleModalLabel" >Sacar Turno</h1>
+  </div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Buscar por Especialidad o Especialista" aria-label="Recipient's username" aria-describedby="button-addon2" name="filterPost" [(ngModel)]="filterPost">
+    <button class="btn btn-outline-danger" type="button" id="button-addon2"><i class="fas fa-search"></i></button>
+  </div>
+  <h1>Especialistas</h1>
+  <ul style="height: 205px !important">
+    <div *ngIf="listaespespe.length != 0">
+      <div id="especialista" class="row">
+        <button class="btn btn-outline-info m-1 col-sm-6" *ngFor="let item of listaespespe | buscador:filterPost" 
+          (click)="turnosEspecialista(item)" style="width: 180px !important; height: 200px !important; position: relative;">
+          <img src="{{ item.imagen }}" style="width: 10em; height: auto" />
+          <div class="centered" style="color: #0DCAF0; font-size: large;size: 1em; text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;">{{ item.nombre }}-{{ item.apellido }} {{ item.especialidad | octavio }}</div>
+        </button>
+        <!-- <button class="btn btn-outline-success" (click)="AgregarEspecialidades1(item)" style="position: relative;"><img [src]="item.imagen" style="width: 10em;"><div class="centered" style="color: black; font-size: large;">{{item.especialidad}}</div></button> -->
+      </div>
+    </div>
+  </ul>
+  <h1>Dias Disponibles</h1>
+  <ul style="width: 100% !important; height: 40vh !important;">
+    <div class="row">
+      <div *ngFor="let item of listaTurno" class="col">
+        <button appAgrandar class="btn btn-danger m-1" (click)="sacarTurno(item)" [disabled]="flagturno">
+          {{ item }}
+        </button>
+      </div>
+    </div>
+  </ul>
+  <!--   ///TURNO 3 BOTONES
+            <div class="form-group text-center">
+            </div>
+            <h1>Especialidades</h1>
+            <ul>
+              <div class="row">
+                <div *ngFor="let item of listaespecialidades" class="col">
+                  <button class="btn btn-info m-1">{{item.especialidad | uppercase}}<img src="{{item.imagen}}"
+                      style="width: 100px; height: auto;" (click)="filterPost=item.especialidad"></button>
+                </div>
+              </div>
+            </ul>
+            <h1>Especialistas</h1>
+            <ul>
+              <div *ngIf="listaespecialista.length!=0" class="row">
+                <div *ngFor="let item of listaespecialista | filter:filterPost" class="col">
+                  <button class="btn btn-success m-1"
+                    (click)="turnosEspecialista(item)">{{item.nombre}}-{{item.apellido}}<img src="{{item.imagen}}"
+                      style="width: 100px; height: auto;"></button>
+                </div>
+              </div>
+            </ul>
+            <h1>Dias Disponibles</h1>
+            <ul>
+              <div class="row">
+                <div *ngFor="let item of listaTurno" class="col">
+                  <button class="btn btn-danger m-1" (click)="sacarTurno(item)" [disabled]='flagturno'>{{item}}</button>
+                </div>
+              </div>
+            </ul> -->
+</div>

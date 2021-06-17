@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "tp-clinica-516b7": {
+      "hosting": {
+        "TPClinicaOnline": [
+          "tp-clinica-516b7"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "tp-clinica-516b7"
+  }
+}

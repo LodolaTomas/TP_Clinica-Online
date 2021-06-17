@@ -1,0 +1,253 @@
+<app-nav-bar></app-nav-bar>
+<div class="container-flex align-items-center justify-content-center">
+  <div class="container-lg">
+    <form novalidate [formGroup]="userForm" (ngSubmit)="onRegister()">
+      <div class="text-center h1">{{ titulo }}</div>
+      <fieldset class="row">
+        <div class="form-group mt-4 col-md-6">
+          <label for="nombre">Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nombre"
+            placeholder="Nombres"
+            formControlName="nombre"
+            [class]="isValidField('nombre')"
+          />
+          <div class="invalid-feedback">
+            <span *ngIf="userForm.get('nombre').errors?.required">
+              Please enter your name
+            </span>
+          </div>
+        </div>
+        <div class="form-group mt-4 col-md-6">
+          <label for="apellido">Apellido</label>
+          <input
+            type="text"
+            class="form-control"
+            id="apellido"
+            placeholder="Apellidos"
+            formControlName="apellido"
+            [class]="isValidField('apellido')"
+          />
+          <div class="invalid-feedback">
+            <span *ngIf="userForm.get('apellido').errors?.required">
+              Please enter your apellido
+            </span>
+          </div>
+        </div>
+        <div class="form-group mt-4" [ngClass]="clase">
+          <label for="edad">Edad</label>
+          <input
+            type="number"
+            class="form-control"
+            id="edad"
+            placeholder="Edad"
+            formControlName="edad"
+            [class]="isValidField('edad')"
+          />
+          <div class="invalid-feedback">
+            <span *ngIf="userForm.get('edad').errors?.required">
+              Please enter your years
+            </span>
+            <span
+              *ngIf="
+                userForm.get('edad').errors?.min ||
+                userForm.get('edad').errors?.max
+              "
+            >
+              Please ingrese una edad Valida
+            </span>
+          </div>
+        </div>
+        <div class="form-group mt-4" [ngClass]="clase">
+          <label for="dni">DNI</label>
+          <input
+            type="number"
+            class="form-control"
+            id="dni"
+            placeholder="DNI"
+            formControlName="dni"
+            [class]="isValidField('dni')"
+          />
+          <div class="invalid-feedback">
+            <span *ngIf="userForm.get('dni').errors?.required">
+              Please enter your DNI
+            </span>
+            <span *ngIf="userForm.get('dni').errors?.minlength">
+              Please ingrese un DNI valido
+            </span>
+          </div>
+        </div>
+        <div class="form-group mt-4 col-md-4" *ngIf="flag == true">
+          <label>Obra Social</label>
+          <input
+            type="text"
+            class="form-control"
+            id="obraSocial"
+            placeholder="Obra Social"
+            formControlName="obraSocial"
+            [class]="isValidField('obraSocial')"
+          />
+          <div class="invalid-feedback" style="font-family: sans-serif">
+            <span *ngIf="userForm.get('obraSocial').errors?.required">
+              Please enter your obra Social
+            </span>
+          </div>
+        </div>
+        <div *ngIf="flag == false">
+          <ul class="w-100 p-3 mt-4" style="height: 200px !important;">
+            <div class="row">
+            <div *ngFor="let item of listaespecialidades" class="col" style="padding: 0;">
+              <button class="btn btn-outline-success" (click)="AgregarEspecialidades1(item)" style="position: relative;"><img [src]="item.imagen" style="width: 10em;"><div class="centered" style="color: black; font-size: large;">{{item.especialidad}}</div></button>
+            </div>
+          </div>
+          </ul>
+        </div>
+        <div class="row form-group mt-4" *ngIf="flag == false">
+          <div class="col-10 mt-4">
+            <input
+              placeholder="Especialidad"
+              id="esp"
+              type="text"
+              formControlName="especialidades"
+              class="form-control"
+              [class]="estaVacio()"
+              id="especialidades"
+              placeholder="Especialidad"
+              [(ngModel)]="textoEspecialidades"
+            />
+            <div class="invalid-feedback" style="font-family: sans-serif">
+              <span> Agrege por lo menos una Especialidad </span>
+            </div>
+          </div>
+          <div class="col-2 mt-4">
+            <div class="especialidad">
+              <button
+                class="btn btn-primary btn-block"
+                (click)="AgregarEspecialidades()"
+                [disabled]="textEmpty()"
+              >
+                +
+              </button>
+              <div class="datosProfesional"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="listadoEsp" *ngIf="flag == false">
+          <p class="titEsp blanco">Especialidades:</p>
+          <ul class="w-100 p-3">
+            <div class="row">
+              <div *ngFor="let item of especialidades" class="col-lg-4">
+                <div class="input-group mb-3">
+                  <input
+                    type="text"
+                    readonly
+                    class="form-control"
+                    value="{{ item }}"
+                    placeholder="Recipient's username"
+                    aria-label="Recipient's username"
+                    aria-describedby="basic-addon2"
+                  />
+                  <span
+                    (click)="BorrarEspecialidades(item)"
+                    class="btn btn-danger"
+                    id="basic-addon2"
+                    ><i class="fa fa-trash-o" aria-hidden="true"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </ul>
+        </div>
+        <div class="form-group mt-4">
+          <label>Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            placeholder="Enter email"
+            formControlName="email"
+            [class]="isValidField('email')"
+          />
+          <div class="invalid-feedback" style="font-family: sans-serif">
+            <span *ngIf="userForm.get('email').errors?.required">
+              Please enter your email
+            </span>
+            <span *ngIf="userForm.get('email').errors?.pattern">
+              Please enter a valid email
+            </span>
+          </div>
+        </div>
+        <div class="form-group mt-4">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="Password"
+            formControlName="password"
+            [class]="isValidField('password')"
+          />
+          <div class="invalid-feedback">
+            <span *ngIf="userForm.get('password').errors?.required">
+              Please enter your password
+            </span>
+            <span *ngIf="userForm.get('password').errors?.minlength">
+              the password must be longer than 8 characters
+            </span>
+          </div>
+        </div>
+        <div class="form-group mb-3 mt-4" [ngClass]="inputfile">
+          <input
+            type="file"
+            class="form-control"
+            aria-label="file example"
+            (change)="onUpload1($event)"
+            formControlName="foto1"
+            [class]="isValidField('foto1')"
+          />
+          <div class="invalid-feedback">
+            <span *ngIf="userForm.get('foto1').errors?.required">
+              Please ingrese foto de perfil1
+            </span>
+          </div>
+        </div>
+        <div class="form-group mb-3 mt-4 col-md-6" *ngIf="flag == true">
+          <input
+            type="file"
+            class="form-control"
+            aria-label="file example"
+            (change)="onUpload2($event)"
+            formControlName="foto2"
+            [class]="isValidField('foto2')"
+          />
+          <div class="invalid-feedback">
+            <span *ngIf="userForm.get('foto2').errors?.required">
+              Please ingrese foto de perfil2
+            </span>
+          </div>
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto" *ngIf="flag == false">
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="botonRegistrar()"
+          >
+            Registrar
+          </button>
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto" *ngIf="flag == true">
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="botonRegistrar2()"
+          >
+            Registrar
+          </button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>

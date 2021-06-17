@@ -1,0 +1,26 @@
+ul {
+  height: 150px;
+  width: 100%;
+}
+ul {
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr [col-start]);
+  margin: auto;
+}
+
+.grow:hover {
+  -webkit-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  transform: scale(1.5);
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -1,0 +1,228 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="container-fluid">
+  <div align=center>
+    <button class="btn btn-primary mt-1 mb-1" type="button" data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      My Perfil
+    </button>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="content">
+        <a routerLink='/sacarTurno'>
+          <div class="content-overlay"></div>
+          <img class="content-image"
+            src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-516b7.appspot.com/o/doctor-examining-chest-of-patient.jpg?alt=media&token=e72b9826-ebae-42ad-a018-eb5bf5dd7a93">
+          <div class="content-details fadeIn-bottom">
+            <h3 class="content-title">Sacar Turno</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="content ">
+        <a (click)="onClickM2()">
+          <div class="content-overlay"></div>
+          <img class="content-image"
+            src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-516b7.appspot.com/o/scheduling-in-an-agenda.jpg?alt=media&token=21f34f4c-e396-4c2f-b96a-815fa72fbb1b">
+          <div class="content-details fadeIn-bottom">
+            <h3 class="content-title">Mis Turnos</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="container-xl" *ngIf="vermisTurnos">
+  <div class="modal-header">
+    <h1 class="modal-title" id="exampleModalLabel2">Mis Turnos</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="vermisTurnos=false"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div *ngFor="let item of misTurnos" class="col">
+        <div class="card" style="width: 18rem;">
+          <div class="card-header">
+            <img [src]="item.especialista.imagen" class="card-img-top" alt="...">
+          </div>
+          <div class="card-body">
+            <h1 class="card-title">{{item.especialidad}}</h1>
+            <h1 class="card-title">{{item.especialista.nombre}} {{item.especialista.apellido}}</h1>
+            <p class="card-text">Fecha : {{item.horario}}</p>
+            <h2>Estado: {{item.estado}}</h2>
+            <div *ngIf="item.estado=='finalizado'">
+              <button class="btn btn-outline-info" (click)="guardarTurno('resenia',item.historiaClinica)">ver
+                Resenia</button>
+              <button class="btn btn-outline-warning" (click)="encuestaPaciente(item)">encuesta</button>
+              <button class="btn btn-outline-success" (click)="calificacionPaciente(item)">calificar</button>
+            </div>
+            <div *ngIf="item.estado=='aceptado'">
+              <button class="btn btn-outline-danger" (click)='guardarTurno("cancelado",item.id)'>cancelar</button>
+            </div>
+            <div *ngIf="item.estado=='rechazado' || item.estado=='cancelado'">
+              <button class="btn btn-outline-warning" (click)="verMotivo(item.comentario)">ver motivo</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+        (click)="vermisTurnos=false">Close</button>
+    </div>
+  </div>
+
+</div>
+
+
+
+<ng-template #modalRechazar let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Rechazar turno</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formularioComentario">
+      <div class="row">
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Escriba un comentario" formControlName="comentario"
+            required>
+        </div>
+      </div>
+    </form>
+  </div>
+  <button class="btn btn-success btn-block mb-3" [disabled]="formularioComentario.invalid"
+    (click)="rechazarTurnoModal()">Enviar</button>
+</ng-template>
+
+<ng-template #modalVerComentario let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title fs-1">Comentarios</h4>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="comentario!=undefined">
+      <h2>Comentario: {{comentario}}</h2>
+    </div>
+    <div *ngIf="comentario==undefined">
+      <h2>Altura: {{historiaPaciente.altura}}</h2>
+      <h2>Peso: {{historiaPaciente.peso}}</h2>
+      <h2>Presion: {{historiaPaciente.presion}}</h2>
+      <h2>Temperatura: {{historiaPaciente.temperatura}}</h2>
+      <h2>Datos Adicionales</h2>
+      <h2 *ngFor="let item of historiaPaciente.datos | keys">
+        {{item.key}} - {{item.value}}
+      </h2>
+
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
+  </div>
+</ng-template>
+
+<ng-template #modalFinalizar let-modal>
+  <div *ngIf="calificacion==true">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Calificacion</h4>
+    </div>
+    <div class="modal-body">
+      <ngb-rating [max]="5" [(rate)]="starRating" [readonly]="false"></ngb-rating>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-success btn-block" (click)="guardarCalificion()">Enviar</button>
+    </div>
+  </div>
+  <div *ngIf="calificacion!=true">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Encuesta</h4>
+    </div>
+    <div class="modal-body">
+      <h1>Que te parecio la Atencion Recibida</h1>
+      <div class="rate">
+        <label for="customRange2" class="form-label emoji">{{emojis[range]}}</label>
+        <input type="range" class="form-range" min="0" max="4" [(ngModel)]="range" (ngModelChange)="setRam($event)"
+          value="2" id="customRange2">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-success btn-block" (click)="guardarCalificion()">Enviar</button>
+    </div>
+  </div>
+</ng-template>
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h1 class="offcanvas-title" id="offcanvasExampleLabel">My Perfil</h1>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" style="width: 100%;">
+    <div class="list-group">
+      <button type="button" class="list-group-item list-group-item-action"><img src="{{paciente.imagen1}}"
+          style="height: auto;width: 100%;">
+        <!-- <img src="{{paciente.imagen2}}" style="height: auto;width: 100%;"> --></button>
+      <button type="button" class="list-group-item list-group-item-action">NOMBRE: {{paciente.nombre}}</button>
+      <button type="button" class="list-group-item list-group-item-action">APELLIDO: {{paciente.apellido}}</button>
+      <button type="button" class="list-group-item list-group-item-action">EMAIL: {{paciente.email}}</button>
+      <button type="button" class="list-group-item list-group-item-action">EDAD: {{paciente.edad}}</button>
+      <button type="button" class="list-group-item list-group-item-action">DNI: {{paciente.dni}}</button>
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Historia Clinica
+          </mat-panel-title>
+          <mat-panel-description>
+            Mis Historias Clinicas
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngIf="!unoconhistorias">
+          <div class="d-flex align-items-center ">
+            <strong class="fs-2">Sin Historia Clinica</strong>
+            <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div *ngIf="unoconhistorias">
+          <div class="container" id="container" #container>
+            <div *ngFor="let item of misTurnos;let i=index " align='center'>
+              <div *ngIf="item.estado=='finalizado'"
+                style="background-color: rgb(34, 34, 34); border: 2px white solid;">
+                <button class="btn btn-outline-danger mt-2"
+                  [printStyle]='{div : {"background-repeat":"no-repeat"},img : {"width": "700px !important"}}'
+                  printSectionId='cardpdf{{i}}' [useExistingCss]="true" printTitle="historiaClinica.pdf"
+                  ngxPrint>DescargarHistorialClinico</button>
+                <div class="card m-3" id="cardpdf{{i}}" style="width: 18em; align-items: center; border: 2px rgb(0, 0, 0) solid; position: relative;">
+                  <div align=center>
+                    <img src="../../../assets/clinic.png" id="imagen" class="imagen" style="width: 0px; position: absolute; opacity:0.1;z-index:99;top: 30%; left: 50%;  transform: translate(-50%, -50%);">
+                    <section class="card-body" >
+                      <img [src]="item.especialista.imagen" style="width: 17em !important; height: auto;">
+                      <h5 class="card-title" appHover appSizer>{{item.especialista.nombre}} {{item.especialista.apellido}}</h5>
+                      <h5 class="card-title" appHover appSizer>{{item.especialidad}}</h5>
+                      <h5 class="card-title" appHover appSizer>{{item.horario}}</h5>
+                      <p class="card-text" appHover appSizer>altura: {{item.historiaClinica.altura}}</p>
+                      <p class="card-text" appHover appSizer>peso: {{item.historiaClinica.peso}}</p>
+                      <p class="card-text" appHover appSizer>presion: {{item.historiaClinica.presion}}</p>
+                      <p class="card-text" appHover appSizer>temperatura: {{item.historiaClinica.temperatura}}</p>
+                      <section class="card-text" >datos dinamicos:
+                        <section   appHover appSizer *ngFor="let dato of item.historiaClinica.datos | keys">
+                         <p class="card-text"> {{dato.key}} : {{dato.value}}</p>
+                        </section>
+                      </section>
+                    </section>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

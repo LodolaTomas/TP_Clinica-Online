@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/bienvenido"><img src="../../../assets/clinic.png" style="width: 3rem" /></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+      <form class="d-flex" *ngIf="login == false">
+        <button type="button" class="border border-outline-primary btn btn-success my-2 my-sm-0 m-1"
+          routerLink="/opcionesRegistro">
+          Registrar
+        </button>
+        <button class="border border-outline-primary btn btn-success my-2 my-sm-0 m-1" routerLink="/login">
+          Login
+        </button>
+      </form>
+      <form class="d-flex" *ngIf="login == true">
+        <button class="border border-outline-primary btn btn-success my-2 my-sm-0 m-1" (click)="delogar()">
+          LogOut
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>

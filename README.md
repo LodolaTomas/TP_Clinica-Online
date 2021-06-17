@@ -1,27 +1,42 @@
-# TPClinicaOnline
+# Clinica Online
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
+<p>En este proyecto tendremos distintas funcionalidades para poder manejar una clinica como</p>
 
-## Development server
+<ul>
+<li>Paciente</li>
+<li>Especialista</li>
+<li>Administrador</li>
+</ul>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Está abierta al público de lunesaviernes en el horario de 8:00 a 19:00, y los sábados en el horario de 8:00 a 14:00
 
-## Code scaffolding
+<h2>Como Sacar un Turno Como Paciente</h2>
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Podremos registrarnos como pacientes o como especialistas.Se le enviara un mail al correo con el que se registro para poder acceder
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+<h2>Perfil Especialista</h2>
 
-## Running end-to-end tests
+poner imagen
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice.
+Desde aqui el especialista podra indicar que dias y en que horarios trabajara segun la especialidad
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+<h2>Como Administrador</h2>
+<h3>Seccion Usuarios,Solicitudes de Especialistas y Registro de Administradores</h3>
+
+poner imagen
+
+<ul>
+<li>En la seccion Usuarios tendremos un listado de los usuarios segun su tipo de perfil(Especialista,paciente o administrador)</li>
+<li>En Solicitudes de Especialistas se ven las solicitudes de registro de nuevos especialistas a la clinica donde veremos sus especialidades y podremos aceptarlas o negarlas</li>
+<li>En el registro de administradores podremos registrar nuevos administradores para que manejen la clinica</li>
+</ul>
+
+<h3>Sacar turno como admin</h3>
+
+poner imagen
+
+El admin tambien puede sacarle turno a los pacientes que estan registrados en el sistema 

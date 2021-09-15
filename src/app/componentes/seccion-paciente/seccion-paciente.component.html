@@ -1,6 +1,11 @@
 <app-nav-bar></app-nav-bar>
-
-<div class="container-fluid">
+<div align=center *ngIf="flag==true" class="mt-1">
+  <button class="btn btn-outline-danger" (click)="flag=false"><i class="fas fa-caret-left"></i> Atras</button>
+</div>
+<div *ngIf="flag" class="mt-4">
+  <app-historia-clinica [paciente]="paciente"></app-historia-clinica>
+</div>
+<div class="container-fluid" *ngIf="flag!=true">
   <div align=center>
     <button class="btn btn-primary mt-1 mb-1" type="button" data-bs-toggle="offcanvas"
       data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
@@ -162,7 +167,7 @@
     <h1 class="offcanvas-title" id="offcanvasExampleLabel">My Perfil</h1>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <div class="offcanvas-body" style="width: 100%;">
+  <div class="offcanvas-body" style="width: 100%;" align=center>
     <div class="list-group">
       <button type="button" class="list-group-item list-group-item-action"><img src="{{paciente.imagen1}}"
           style="height: auto;width: 100%;">
@@ -224,5 +229,6 @@
         </div>
       </mat-expansion-panel>
     </mat-accordion>
+    <button class="btn btn-outline-danger mt-1" data-bs-dismiss="offcanvas" aria-label="Close" (click)="flag=true ">Historia Clinica por Especialista</button>
   </div>
 </div>

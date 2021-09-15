@@ -10,7 +10,7 @@
     </mat-expansion-panel-header>
     <div align=center>
         <button class="btn btn-success" (click)="generarExcel()">Excel Listado Usuarios</button>
-    
+        <button class="btn btn-info ms-1" (click)="generarExcel2()">Excel Listado Turnos</button>
     </div>
     <mat-accordion>
         <mat-expansion-panel>
@@ -195,6 +195,19 @@
     </mat-expansion-panel>
 </mat-accordion>
 
+<div>
+    <div>
+      <div style="display: block">
+        <canvas baseChart
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [chartType]="barChartType">
+        </canvas>
+      </div>
+    </div>
+  </div>
 
 
 

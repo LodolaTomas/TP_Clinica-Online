@@ -24,12 +24,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AltaAdminModule } from './componentes/alta-admin/alta-admin.module';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { environment } from 'src/environments/environment.prod';
-import { SacarTurnoComponent } from './componentes/sacar-turno/sacar-turno.component';
 import { SacarTurnoModule } from './componentes/sacar-turno/sacar-turno.module';
 import { NgxPrintModule } from 'ngx-print'; 
 import { HoverDirective } from './directive/hover.directive';
 import { SizerDirective } from './directive/sizer.directive';
-
+import { HistoriaClinicaComponent } from './componentes/historia-clinica/historia-clinica.component';
+import { ChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +45,8 @@ import { SizerDirective } from './directive/sizer.directive';
     UppercasePipe,
     KeysPipe,
     HoverDirective,
-    SizerDirective
+    SizerDirective,
+    HistoriaClinicaComponent
     
   ],
   imports: [
@@ -63,7 +64,8 @@ import { SizerDirective } from './directive/sizer.directive';
     NgxCaptchaModule,
     SacarTurnoModule,
     NgxPrintModule,
-    SacarTurnoModule
+    SacarTurnoModule,
+    ChartsModule
   ],
   bootstrap: [AppComponent]
 })

@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Turnos } from 'src/app/class/turnos/turnos';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-seccion-especialista',
@@ -28,9 +29,11 @@ export class SeccionEspecialistaComponent implements OnInit {
   respuestaTurno:any={};
   comentario;
   historiaPaciente;
+  flag2=false
   datosExtas:any= [];
   textodato: string = "";
   textovalor: string = "";
+  misPacientes:Array<any>=[]
   @ViewChild('modalRechazar', { read: TemplateRef }) modalRechazar: TemplateRef<any>;
 
   @ViewChild('modalCancelar', { read: TemplateRef })
@@ -84,11 +87,26 @@ export class SeccionEspecialistaComponent implements OnInit {
         if(element.val().especialista.id==this.especialista.id){
           turno=element.val()
           turno.id=element.key
+          this.agregarPaciente(turno);
           this.misTurnos.push(turno)
         }
       })
     })
 
+  }
+  agregarPaciente(turno:any){
+    if(this.misPacientes.length==0){
+      if(turno.estado==="finalizado")
+      this.misPacientes.push(turno.paciente)
+    }else{
+      if(!this.misPacientes.some(e=>e.id==`${turno.paciente.id}`)){
+        if(turno.estado==="finalizado")
+        this.misPacientes.push(turno.paciente)
+      }
+    }
+  }
+  banderas(){
+    this.flag2==false?this.flag2=true:this.flag2=false
   }
   guardado(respuesta){
     this.flag=respuesta

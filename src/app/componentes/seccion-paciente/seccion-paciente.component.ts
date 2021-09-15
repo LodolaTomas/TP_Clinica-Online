@@ -38,13 +38,15 @@ export class SeccionPacienteComponent implements OnInit {
   comentario: any;
   formularioComentario: FormGroup;
   modal2 = false;
-  misTurnos: any[] = [];
+  misTurnos: any= {};
+  misTurnosEspecialista:any={}
   respuestaTurno: any = {};
   vermisTurnos = false
   calificar: any = {};
   historiaPaciente;
   starRating = 0;
   unoconhistorias = false
+  flag=false;
   @ViewChild('modalRechazar', { read: TemplateRef }) modalRechazar: TemplateRef<any>;
 
   @ViewChild('modalCancelar', { read: TemplateRef })
@@ -86,26 +88,36 @@ export class SeccionPacienteComponent implements OnInit {
       doc.save('test.pdf')
     }) */
   }
-  ngOnInit(): void {
+  async ngOnInit() {
     this.uid = JSON.parse(localStorage.getItem('uid'));
     firebase.default.database().ref(`/Pacientes/${this.uid}`).on("value", snapshot => {
       this.paciente = <Paciente>snapshot.val();
       this.paciente.id = snapshot.key
     })
-    console.log(this.range)
-    firebase.default.database().ref("/Turnos/").on("value", snapshot => {
-      this.misTurnos.splice(0, this.misTurnos.length)
-      var turncompleto;
-      snapshot.forEach(element => {
-        if (element.val().paciente.id == this.paciente.id) {
-          turncompleto = element.val()
-          turncompleto.id = element.key
-          turncompleto.estado == 'finalizado' ? this.unoconhistorias = true : ''
-          this.misTurnos.push(turncompleto)
-        }
+
+    this.misTurnos= await this.listaTUrnos()
+    
+  }
+  
+  listaTUrnos(){
+    let turnitos=[]
+    return new Promise(resolve=>{
+      firebase.default.database().ref("/Turnos/").on("value", snapshot => {
+        turnitos.splice(0, turnitos.length)
+        var turncompleto;
+        snapshot.forEach(element => {
+          if (element.val().paciente.id == this.paciente.id) {
+            turncompleto = element.val()
+            turncompleto.id = element.key
+            turncompleto.estado == 'finalizado' ? this.unoconhistorias = true : ''
+            turnitos.push(turncompleto)
+          }
+        })
+        resolve(turnitos)
       })
     })
   }
+
   turnosEspecialista(item, item2) {
     this.selecEspecialidad = item2
     this.espSeleccionado = item;

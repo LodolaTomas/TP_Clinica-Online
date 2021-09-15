@@ -5,6 +5,7 @@
       aria-controls="offcanvasExample">
       MI PERFIL
     </a>
+    <button class="btn btn-warning ms-1" (click)="banderas()">Mis Pacientes</button>
     <div *ngIf="habilitado==false">
       <br>
       <h1>Esperando a ser Dado de Alta</h1>
@@ -19,6 +20,19 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
+    <div *ngIf="flag2==true" >
+      <div class="row">
+      <div class="card col" style="width: 200px;" *ngFor="let item of misPacientes">
+        <img src="{{item.imagen1}}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{item.apellido}} {{item.nombre}}</h5>
+          <p class="card-text">Edad: {{item.edad}}</p>
+          <p class="card-text">DNI: {{item.dni}}</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div *ngIf="flag2!=true">
     <div *ngIf="flag!=true">
       <div *ngIf="misTurnos.length>0">
         <br>
@@ -60,6 +74,7 @@
         </div>
       </div>
     </div>
+  </div>
     <div *ngIf="flag" class="mt-4">
       <app-mis-horarios [especialista]="especialista" (guardar)="guardado($event)"></app-mis-horarios>
     </div>

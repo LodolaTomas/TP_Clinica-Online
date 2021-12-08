@@ -8,6 +8,10 @@
 <li>Administrador</li>
 </ul>
 
+![Web 1920 – 1](https://user-images.githubusercontent.com/52363833/145280884-18e6f56b-c2ad-47e8-b751-acfbe8e0d7ee.png)
+![Web 1920 – 2](https://user-images.githubusercontent.com/52363833/145280901-bfe51d5a-8cd8-4334-a780-3fbc110b51ac.png)
+
+
 Está abierta al público de lunesaviernes en el horario de 8:00 a 19:00, y los sábados en el horario de 8:00 a 14:00
 
 <h2>Como Sacar un Turno Como Paciente</h2>

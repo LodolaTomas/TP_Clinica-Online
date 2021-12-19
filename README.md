@@ -13,11 +13,11 @@
 ## Log In
 ![Web 1920 – 2](https://user-images.githubusercontent.com/52363833/145280901-bfe51d5a-8cd8-4334-a780-3fbc110b51ac.png)
 
-## Sign Up how pacient
+## register as a patient
 
 ![Web-Sign up](https://user-images.githubusercontent.com/52363833/146663377-4c58f2b0-4b13-468b-a7be-3e5cbb4b0e55.jpg)
 
-## Sign Up how Medic
+## register as a medic
 
 ![Web-Sign up – 1](https://user-images.githubusercontent.com/52363833/146663398-d4fe05af-11bb-40e0-9750-4bf221a3edba.jpg)
 
